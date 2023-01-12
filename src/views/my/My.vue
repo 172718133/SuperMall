@@ -1,10 +1,18 @@
 <template>
-  <div>我的</div>
+  <div>
+    <NavBar>
+      <div slot="center">个人中心</div>
+    </NavBar>
+  </div>
 </template>
 
 <script>
+import NavBar from '@/components/common/navbar/NavBar.vue'
 export default {
-  name: 'my-center'
+  name: 'my-center',
+  components: {
+    NavBar
+  }
 }
 </script>
 
