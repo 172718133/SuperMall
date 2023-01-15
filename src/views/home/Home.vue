@@ -16,6 +16,7 @@ export default {
   },
   data () {
     return {
+      // 轮播图
       banner: {},
       keyword: {},
       recommend: {}
@@ -24,9 +25,9 @@ export default {
   methods: {
     async getHomeData () {
       const { data: res } = await getHomeDataAPI()
-      this.banner = res.data.banner
-      this.keyword = res.data.keywords
-      this.recommend = res.data.recommend
+      this.banner = res.data.banner.list
+      this.keyword = res.data.keywords.list
+      this.recommend = res.data.recommend.list
     }
   },
   created () {
