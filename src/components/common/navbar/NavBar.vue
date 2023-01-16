@@ -18,7 +18,7 @@ export default {
     display: flex;
     height: 44px;
     line-height: 44px;
-    background-color: antiquewhite;
+    background-color: sandybrown;
     position: fixed;
     top: 0;
     right: 0;
