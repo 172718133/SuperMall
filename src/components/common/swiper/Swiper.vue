@@ -45,11 +45,13 @@ export default {
   },
   mounted () {
     // 1.操作DOM, 在前后添加Slide
-    setTimeout(() => {
-      this.handleDom()
-      // 2.开启定时器
-      this.startTimer()
-    }, 1000)
+    window.onload = () => {
+      setTimeout(() => {
+        this.handleDom()
+        // 2.开启定时器
+        this.startTimer()
+      }, 3000)
+    }
   },
   methods: {
     // 定时器操作
