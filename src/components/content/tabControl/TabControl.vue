@@ -25,6 +25,7 @@ export default {
   methods: {
     itemClick (index) {
       this.currentIndex = index
+      this.$emit('tabClick', index)
     }
   }
 }
@@ -42,7 +43,7 @@ export default {
     }
   }
   .active {
-    padding: 6px 4px;
+    padding: 8px 4px;
     color: var(--bgdc);
     border-bottom: 2px solid var(--bgdc);
   }
