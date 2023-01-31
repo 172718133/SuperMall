@@ -76,7 +76,7 @@ import TabControl from '@/components/content/tabControl/TabControl.vue'
 import Recommend from './comps/RecommendView.vue'
 import FeatureView from './comps/FeatureView.vue'
 
-import { getHomeDataAPI } from '@/api/home.js'
+import { getHomeDataAPI, getHomeGoodsAPI } from '@/api/home.js'
 export default {
   name: 'my-home',
   components: {
@@ -92,19 +92,34 @@ export default {
       // 轮播图
       banner: [],
       keyword: [],
-      recommend: []
+      recommend: [],
+      goods: {
+        pop: { page: 0, list: [] },
+        new: { page: 0, list: [] },
+        sell: { page: 0, list: [] }
+      }
     }
   },
   methods: {
+    // 获取首页数据的方法
     async getHomeData () {
       const { data: res } = await getHomeDataAPI()
       this.banner = res.data.banner.list
       this.keyword = res.data.keywords.list
       this.recommend = res.data.recommend.list
+    },
+    // 获取首页商品信息的方法
+    async getHomeGoods (type) {
+      const page = this.goods[type].page + 1
+      const { data: res } = await getHomeGoodsAPI(type, page)
+      // 使用...arr方法解构，将arr新增到数组中
+      this.goods[type].list.push(...res.错误信息)
+      this.goods[type].page += 1
     }
   },
   created () {
     this.getHomeData()
+    this.getHomeGoods('pop')
   }
 }
 </script>
