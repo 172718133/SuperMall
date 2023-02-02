@@ -1,21 +1,22 @@
 <template>
   <div class="home">
-    <nav-bar>
+    <NavBar>
       <div slot="center">首页</div>
-    </nav-bar>
-    <scroll class="scrollview">
-        <swiper>
-          <swiper-item v-for="item in banner" :key="item.title">
+    </NavBar>
+    <Scroll class="scrollview" ref="scroll" :probeType="3" :pullUpLoad="true" @scroll="scrollShowTop" @pullingUp="loadmore">
+        <Swiper>
+          <SwiperItem v-for="item in banner" :key="item.title">
             <a :href="item.link">
               <img :src="item.image" alt="">
             </a>
-          </swiper-item>
-        </swiper>
-        <recommend :recommend="recommend" />
-        <feature-view></feature-view>
-        <tab-control class="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></tab-control>
-        <good-list :goods="showGoods"></good-list>
-    </scroll>
+          </SwiperItem>
+        </Swiper>
+        <Recommend :recommend="recommend" />
+        <FeatureView></FeatureView>
+        <TabControl class="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></TabControl>
+        <GoodList :goods="showGoods"></GoodList>
+    </Scroll>
+    <BackTop @click.native="backTop" v-show="isShowTop"></BackTop>
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import { Swiper, SwiperItem } from '@/components/common/swiper'
 import Scroll from '@/components/common/scroll/Scroll.vue'
 import TabControl from '@/components/content/tabControl/TabControl.vue'
 import GoodList from '@/components/content/goodList/GoodList.vue'
+import BackTop from '@/components/content/backTop/BackTop.vue'
 
 import Recommend from './comps/RecommendView.vue'
 import FeatureView from './comps/FeatureView.vue'
@@ -45,11 +47,13 @@ export default {
     Recommend,
     FeatureView,
     GoodList,
-    Scroll
+    Scroll,
+    BackTop
   },
   data () {
     return {
       currentType: 'pop',
+      isShowTop: false,
       // 轮播图
       banner: [],
       keyword: [],
@@ -352,6 +356,22 @@ export default {
           this.currentType = 'sell'
           break
       }
+    },
+    // 点击图标返回顶部
+    backTop () {
+      this.$refs.scroll.scrollTo(0, 0, 500)
+    },
+    // scroll组件传过来的scroll事件，监听页面的position值，是否隐藏backtop图标
+    scrollShowTop (position) {
+      // if (position.y < -1000) {
+      //   this.isShowTop = true
+      // }
+      this.isShowTop = position.y < -1000
+    },
+    // scroll组件传过来的pullingUp事件，监听页面是否触底
+    loadmore () {
+      // this.getHomeGoods(this.currentType)
+      console.log('触底了')
     }
   },
   created () {
