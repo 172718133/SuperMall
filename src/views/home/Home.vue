@@ -1,77 +1,28 @@
 <template>
   <div class="home">
-    <NavBar>
+    <nav-bar>
       <div slot="center">首页</div>
-    </NavBar>
-    <Swiper>
-      <SwiperItem v-for="item in banner" :key="item.title">
-        <a :href="item.link">
-          <img :src="item.image" alt="">
-        </a>
-      </SwiperItem>
-    </Swiper>
-    <Recommend :recommend="recommend"/>
-    <FeatureView></FeatureView>
-    <TabControl class="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></TabControl>
-    <GoodList :goods="showGoods"></GoodList>
-    <ul>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-      <li>hello</li>
-    </ul>
+    </nav-bar>
+    <scroll class="scrollview">
+        <swiper>
+          <swiper-item v-for="item in banner" :key="item.title">
+            <a :href="item.link">
+              <img :src="item.image" alt="">
+            </a>
+          </swiper-item>
+        </swiper>
+        <recommend :recommend="recommend" />
+        <feature-view></feature-view>
+        <tab-control class="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></tab-control>
+        <good-list :goods="showGoods"></good-list>
+    </scroll>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/common/navbar/NavBar.vue'
 import { Swiper, SwiperItem } from '@/components/common/swiper'
+import Scroll from '@/components/common/scroll/Scroll.vue'
 import TabControl from '@/components/content/tabControl/TabControl.vue'
 import GoodList from '@/components/content/goodList/GoodList.vue'
 
@@ -93,7 +44,8 @@ export default {
     SwiperItem,
     Recommend,
     FeatureView,
-    GoodList
+    GoodList,
+    Scroll
   },
   data () {
     return {
@@ -410,11 +362,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .home {
-    padding: 44px 0 49px 0;
-  }
-  .tabcontrol {
-    position: sticky;
-    top: 44px;
-  }
+.home {
+  height: 100%;
+}
+.tabcontrol {
+  position: sticky;
+  top: 44px;
+}
+.scrollview {
+  height: calc(100vh - 93px);
+  overflow: hidden;
+  margin-top: 44px;
+}
 </style>
