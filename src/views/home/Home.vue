@@ -337,11 +337,14 @@ export default {
     },
     // 获取首页商品信息的方法
     async getHomeGoods (type) {
+      console.log('我请求了类型为' + type + '的数据')
+      this.$refs.scroll.finishPullUp()
       const page = this.goods[type].page + 1
       const { data: res } = await getHomeGoodsAPI(type, page)
+      console.log(res)
       // 使用...arr方法解构，将arr新增到数组中
-      this.goods[type].list.push(...res.错误信息)
-      this.goods[type].page += 1
+      // this.goods[type].list.push(...res.错误信息)
+      // this.goods[type].page += 1
     },
     // 子组件传过来的tabClick的点击事件
     tabClick (index) {
@@ -370,8 +373,7 @@ export default {
     },
     // scroll组件传过来的pullingUp事件，监听页面是否触底
     loadmore () {
-      // this.getHomeGoods(this.currentType)
-      console.log('触底了')
+      this.getHomeGoods(this.currentType)
     }
   },
   created () {

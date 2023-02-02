@@ -31,8 +31,8 @@ export default {
       this.scroll.scrollTo(x, y, time)
     },
     // 封装scrollTo方法，直接调用pullingUp方法，不必再调用this.scroll.pullingUp
-    pullingUp () {
-      this.scroll.pullingUp()
+    finishPullUp () {
+      this.scroll.finishPullUp()
     }
   },
   mounted () {
