@@ -28,11 +28,11 @@ export default {
   methods: {
     // 封装scrollTo方法，直接传入方法参数即可，不必再调用this.scroll.scrollTo
     scrollTo (x, y, time = 300) {
-      this.scroll.scrollTo(x, y, time)
+      this.scroll && this.scroll.scrollTo(x, y, time)
     },
     // 封装scrollTo方法，直接调用pullingUp方法，不必再调用this.scroll.pullingUp
     finishPullUp () {
-      this.scroll.finishPullUp()
+      this.scroll && this.scroll.finishPullUp()
     }
   },
   mounted () {

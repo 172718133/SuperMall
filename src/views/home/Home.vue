@@ -13,7 +13,7 @@
         </Swiper>
         <Recommend :recommend="recommend" />
         <FeatureView></FeatureView>
-        <TabControl class="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></TabControl>
+        <TabControl class="tabcontrol" ref="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></TabControl>
         <GoodList :goods="showGoods"></GoodList>
     </Scroll>
     <BackTop @click.native="backTop" v-show="isShowTop"></BackTop>
@@ -32,6 +32,7 @@ import Recommend from './comps/RecommendView.vue'
 import FeatureView from './comps/FeatureView.vue'
 
 import { getHomeDataAPI, getHomeGoodsAPI } from '@/api/home.js'
+import { debounce } from '@/common/utils.js'
 export default {
   name: 'my-home',
   computed: {
@@ -371,14 +372,17 @@ export default {
       // }
       this.isShowTop = position.y < -1000
     },
-    // scroll组件传过来的pullingUp事件，监听页面是否触底
+    // 下拉加载更多的回调事件
     loadmore () {
-      this.getHomeGoods(this.currentType)
+      debounce(this.getHomeGoods, 2000)(this.currentType)
     }
   },
   created () {
     this.getHomeData()
     // this.getHomeGoods('pop')
+  },
+  mounted () {
+    console.log(this.$refs.tabcontrol.$el.offsetTop)
   }
 }
 </script>
