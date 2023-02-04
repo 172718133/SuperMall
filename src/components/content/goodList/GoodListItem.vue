@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsitem">
+  <div class="goodsitem" @click="toDetail">
     <div class="img">
       <img :src="item.img" alt="">
     </div>
@@ -19,6 +19,11 @@ export default {
       default () {
         return {}
       }
+    }
+  },
+  methods: {
+    toDetail () {
+      this.$router.push('/detail/' + 666)
     }
   }
 }
