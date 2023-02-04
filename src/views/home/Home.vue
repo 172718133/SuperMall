@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" ref="home">
     <NavBar>
       <div slot="center">首页</div>
     </NavBar>
@@ -63,6 +63,8 @@ export default {
   },
   data () {
     return {
+      // 页面关闭时的Y轴距离
+      saveY: 0,
       // 是否显示TabControl
       isShowTab: false,
       // 轮播图图片是否加载
@@ -389,6 +391,7 @@ export default {
       // }
       this.isShowTop = position.y < -1000
       this.isShowTab = position.y < -(this.$refs.tabcontrol1.$el.offsetTop)
+      this.saveY = position.y
     },
     // 下拉加载更多的回调事件
     loadmore () {
@@ -400,6 +403,13 @@ export default {
         this.$refs.scroll.scroll.refresh()
         this.isLoad = true
       }
+    },
+    activated () {
+      this.$refs.scroll.scrollTo(0, this.saveY)
+      this.$refs.scroll.scroll.refresh()
+    },
+    deactivated () {
+
     }
   },
   created () {
