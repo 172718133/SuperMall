@@ -3,17 +3,27 @@
     <NavBar>
       <div slot="center">首页</div>
     </NavBar>
+    <TabControl class="tabcontrol2"
+                ref="tabcontrol2"
+                :title="['流行', '新款', '精选']"
+                @tabClick='tabClick'
+                v-show="isShowTab">
+    </TabControl>
     <Scroll class="scrollview" ref="scroll" :probeType="3" :pullUpLoad="true" @scroll="scrollShowTop" @pullingUp="loadmore">
         <Swiper>
           <SwiperItem v-for="item in banner" :key="item.title">
             <a :href="item.link">
-              <img :src="item.image" alt="">
+              <img :src="item.image" alt="" @load="swiperLoad">
             </a>
           </SwiperItem>
         </Swiper>
         <Recommend :recommend="recommend" />
         <FeatureView></FeatureView>
-        <TabControl class="tabcontrol" ref="tabcontrol" :title="['流行', '新款', '精选']" @tabClick='tabClick'></TabControl>
+        <TabControl class="tabcontrol1"
+                    ref="tabcontrol1"
+                    :title="['流行', '新款', '精选']"
+                    @tabClick='tabClick'>
+        </TabControl>
         <GoodList :goods="showGoods"></GoodList>
     </Scroll>
     <BackTop @click.native="backTop" v-show="isShowTop"></BackTop>
@@ -53,7 +63,12 @@ export default {
   },
   data () {
     return {
+      // 是否显示TabControl
+      isShowTab: false,
+      // 轮播图图片是否加载
+      isLoad: false,
       currentType: 'pop',
+      // 返回顶部图片是否显示
       isShowTop: false,
       // 轮播图
       banner: [],
@@ -360,6 +375,8 @@ export default {
           this.currentType = 'sell'
           break
       }
+      this.$refs.tabcontrol1.currentIndex = index
+      this.$refs.tabcontrol2.currentIndex = index
     },
     // 点击图标返回顶部
     backTop () {
@@ -371,10 +388,18 @@ export default {
       //   this.isShowTop = true
       // }
       this.isShowTop = position.y < -1000
+      this.isShowTab = position.y < -(this.$refs.tabcontrol1.$el.offsetTop)
     },
     // 下拉加载更多的回调事件
     loadmore () {
       debounce(this.getHomeGoods, 2000)(this.currentType)
+    },
+    // 监听轮播图的图片是否加载完成
+    swiperLoad () {
+      if (!this.isLoad) {
+        this.$refs.scroll.scroll.refresh()
+        this.isLoad = true
+      }
     }
   },
   created () {
@@ -382,7 +407,7 @@ export default {
     // this.getHomeGoods('pop')
   },
   mounted () {
-    console.log(this.$refs.tabcontrol.$el.offsetTop)
+
   }
 }
 </script>
@@ -391,13 +416,23 @@ export default {
 .home {
   height: 100%;
 }
-.tabcontrol {
-  position: sticky;
-  top: 44px;
-}
+// .tabcontrol {
+//   position: sticky;
+//   top: 44px;
+// }
 .scrollview {
   height: calc(100vh - 93px);
   overflow: hidden;
   margin-top: 44px;
+}
+.tabcontrol2 {
+  position: fixed;
+  top: 44px;
+  right: 0;
+  left: 0;
+  z-index: 9;
+}
+.none {
+  display: none;
 }
 </style>
